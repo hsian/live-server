@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Clappr/Hls.js with P2P Media Loader</title>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/p2p-media-loader-core@latest/build/p2p-media-loader-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p2p-media-loader-hlsjs@latest/build/p2p-media-loader-hlsjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clappr@latest"></script>
+</head>
+<body>
+    <div id="player"></div>
+    <script>
+        if (p2pml.hlsjs.Engine.isSupported()) {
+            var engine = new p2pml.hlsjs.Engine();
+
+            var player = new Clappr.Player({
+                parentId: "#player",
+                source: "http://192.168.157.128:8080/live/livestream.m3u8",
+                mute: true,
+                autoPlay: true,
+                playback: {
+                    hlsjsConfig: {
+                        liveSyncDurationCount: 7,
+                        loader: engine.createLoaderClass()
+                    }
+                }
+            });
+
+            p2pml.hlsjs.initClapprPlayer(player);
+        } else {
+            document.write("Not supported :(");
+        }
+    </script>
+</body>
+</html>
